@@ -99,7 +99,7 @@ const EmptyStateSubtext = styled.p`
 function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [selectedInstrument, setSelectedInstrument] = useState(null);
-  const { instruments, isLoading, error } = useInstruments();
+  const { instruments = [], isLoading, error } = useInstruments();
   const { addInstrument, updateInstrument, deleteInstrument } = useInstrumentActions();
 
   const handleAddInstrument = () => {
@@ -174,7 +174,7 @@ function App() {
           <EmptyStateIcon>⚡</EmptyStateIcon>
           <EmptyStateText>Loading instruments...</EmptyStateText>
         </EmptyState>
-      ) : instruments.length === 0 ? (
+      ) : (!instruments || instruments.length === 0) ? (
         <EmptyState
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

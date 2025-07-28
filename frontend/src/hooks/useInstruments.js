@@ -9,7 +9,7 @@ export const useInstruments = () => {
     async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/instruments`);
-        return response.data;
+        return response.data || [];
       } catch (error) {
         // For demo purposes, return mock data if API is not available
         if (error.code === 'ERR_NETWORK' || error.response?.status === 404) {
@@ -29,14 +29,16 @@ export const useInstruments = () => {
             }
           ];
         }
-        throw error;
+        console.error('Error fetching instruments:', error);
+        return [];
       }
     },
     {
       refetchInterval: 5000, // Refetch every 5 seconds
       staleTime: 30000, // Consider data stale after 30 seconds
       retry: 3,
-      retryDelay: 1000
+      retryDelay: 1000,
+      initialData: [] // Provide initial empty array
     }
   );
 }; 
